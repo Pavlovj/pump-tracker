@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  images: {
+    domains: ['assets.coingecko.com'],
+    formats: ["image/webp"],
+  },
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -22,4 +26,5 @@ module.exports = {
       },
     ]
   },
+
 }
