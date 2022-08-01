@@ -38,7 +38,7 @@ export const Carousel = () => {
     }, [currency])
 
     return (
-        <div className='flex items-center h-[50%] '>
+        <div className='flex items-center h-[50%]'>
 
             <Swiper
                 slidesPerView={5}
@@ -75,8 +75,22 @@ export const Carousel = () => {
 
                 {
                     trending.map((coin, idx) => {
+                        //TODO move this
+                        const colorPercentage = (value) => {
+                            const profit = value > 0
+                            return (
+                                <span className={profit ? 'text-green-500' : 'text-red-600'}>
+                                    {profit ? `+${value}` : value}%
+                                </span>
+                            )
+                        }
+
+                        const numberWithCommas = (value) => {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        }
+
                         return (
-                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase'>
+                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-purple-300 hover:font-extrabold transition ease-in-out delay-350'>
                                 <Image
                                     className=''
                                     src={coin.image}
@@ -85,10 +99,11 @@ export const Carousel = () => {
                                     width={80}
                                     unoptimized={true}
                                 />
-                                <span>{coin.symbol ?? '&nbsp;'}
-                                    <span className=''>{coin?.price_change_percentage_24h?.toFixed(2)}%</span>
+                                <span className='flex flex-wrap gap-1 pt-2 text-xs'>
+                                    {coin.symbol ?? '&nbsp;'}
+                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
                                 </span>
-                                <span>{symbol} {coin?.current_price.toFixed(2)}</span>
+                                <span>{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
                             </SwiperSlide>
                         )
                     })
