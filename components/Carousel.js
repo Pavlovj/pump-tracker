@@ -50,7 +50,7 @@ export const Carousel = () => {
                     disableOnInteraction: false,
                 }}
                 loop={true}
-                speed={5000}
+                speed={2000}
                 grabCursor={true}
                 modules={[Autoplay]}
                 className="mySwiper"
@@ -94,7 +94,7 @@ export const Carousel = () => {
                                 <Image
                                     className=''
                                     src={coin.image}
-                                    alt=""
+                                    alt={coin.name}
                                     height={80}
                                     width={80}
                                     unoptimized={true}
