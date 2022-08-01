@@ -7,18 +7,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Container, LinearProgress } from '@mui/material';
+import { Container, FormControl, Input, InputAdornment, InputLabel, LinearProgress, OutlinedInput, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getMarketChart, getTrendingCoins } from '../pages/api/trending';
+import { getMarketChart, getTrendingCoins, globalStats } from '../pages/api/trending';
 import { CurrencyState } from '../contexts/currencyContext';
 import Image from 'next/image';
 import { colorPercentage } from '../utils/colorText';
-import { numberWithCommas } from '../utils/convert';
-
+import { abbreviateNumber, numberWithCommas } from '../utils/convert';
+import { FaSearch } from 'react-icons/fa';
 
 function createData(coin, idx) {
-
     return {
         rank: idx,
         coin: [coin.name, coin.symbol, coin.image],
@@ -80,6 +79,8 @@ export const TrendingTable = () => {
     const [loading, setLoading] = useState(true)
     const [coins, setCoins] = useState([])
     const [rows, setRows] = useState([])
+    const [search, setSearch] = useState('');
+    const [globalCap, setGlobalCap] = useState(0)
 
     const { currency, symbol } = CurrencyState();
 
@@ -88,7 +89,6 @@ export const TrendingTable = () => {
     const fetchCoins = async () => {
         setLoading(true);
         const data = await getMarketChart(currency, undefined, true)
-
         setCoins(data);
 
         setRows(data.map((x, y) => createData(x, y)))
@@ -109,9 +109,22 @@ export const TrendingTable = () => {
         setPage(0);
     };
 
-
     return (
         <Container>
+            <div className='flex flex-col justify-center py-6'>
+                <span className='text-2xl'>Today&apos;s Cryptocurrency Prices</span>
+                <span  className='text-sm'>The global cryptocurrency market cap today is <span className='text-blue-300'>$$$</span> a -99% change in the last 24 hours.</span>
+                <TextField
+                    sx={{ input: { color: 'white' } }}
+                    color='primary'
+                    className='min-w-full mt-5 '
+                    label='Search'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+
+            </div>
+
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 {loading ?
 
@@ -123,7 +136,7 @@ export const TrendingTable = () => {
                                     <TableHead >
                                         <TableRow >
                                             {columns.map((column) => (
-                                                <TableCell className='bg-blue-600 border-0 font-bold'
+                                                <TableCell className='bg-blue-400 border-0 font-bold'
                                                     key={column.id}
                                                     align={column.align}
                                                     style={{ minWidth: column.minWidth }}
@@ -165,7 +178,7 @@ export const TrendingTable = () => {
                                 </Table>
                             </TableContainer>
                             <TablePagination
-                                className='bg-blue-500 '
+                                className='bg-blue-400 '
                                 rowsPerPageOptions={[10, 25, 100]}
                                 component="div"
                                 count={rows.length}

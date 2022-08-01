@@ -13,6 +13,12 @@ export const getMarketChart = async (currency, coins, sparkline = false) => {
 
   const data = await res.json()
   return data;
+
+}
+export const globalStats = async()=>{
+    const res = await fetch(`https://api.coingecko.com/api/v3/global`).catch((e) => console.log(e))
+  const data = await res.json()
+  return data;
 }
 
 export default function handler(req, res) {

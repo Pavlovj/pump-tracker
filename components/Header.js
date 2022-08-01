@@ -15,7 +15,7 @@ export const Header = () => {
             <Container>
                 <Toolbar className='flex flex-wrap justify-between items-center mx-auto'>
                     <Typography
-                        className='text-blue-500 cursor-pointer font-bold text-2xl'
+                        className='text-blue-300 cursor-pointer font-bold text-2xl'
                         onClick={() => { router.push('/') }}
                     >
                         Pump Tracker
