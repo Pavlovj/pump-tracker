@@ -22,7 +22,6 @@ export const Banner = () => {
                     <Carousel />
                 </Container >
             </div>
-
         </>
     )
 }
