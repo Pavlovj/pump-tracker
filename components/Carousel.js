@@ -13,6 +13,8 @@ import "swiper/css/navigation";
 import swiper, { Autoplay, FreeMode } from "swiper";
 import { getTrendingCoins } from '../pages/api/trending';
 import Link from 'next/link';
+import { numberWithCommas } from '../utils/convert';
+import { colorPercentage } from '../utils/colorText';
 
 
 export const Carousel = () => {
@@ -75,22 +77,8 @@ export const Carousel = () => {
 
                 {
                     trending.map((coin, idx) => {
-                        //TODO move this
-                        const colorPercentage = (value) => {
-                            const profit = value > 0
-                            return (
-                                <span className={profit ? 'text-green-500' : 'text-red-600'}>
-                                    {profit ? `+${value}` : value}%
-                                </span>
-                            )
-                        }
-
-                        const numberWithCommas = (value) => {
-                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                        }
-
                         return (
-                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-purple-300 hover:font-extrabold transition ease-in-out delay-350'>
+                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350'>
                                 <Image
                                     className=''
                                     src={coin.image}

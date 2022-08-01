@@ -10,17 +10,12 @@ export const Header = () => {
     const { currency, setCurrency, symbol } = CurrencyState()
 
     return (
-        // <nav className='bg-white border-gray-900 px-2 sm:px-4 py-2.5 rounded'>
-        //     <div className="container flex flex-wrap justify-between items-center mx-auto">
-
-        //     </div>
-        // </nav>
 
         <AppBar className='bg-transparent static'>
             <Container>
                 <Toolbar className='flex flex-wrap justify-between items-center mx-auto'>
                     <Typography
-                        className='text-purple-400 cursor-pointer font-bold text-2xl'
+                        className='text-blue-500 cursor-pointer font-bold text-2xl'
                         onClick={() => { router.push('/') }}
                     >
                         Pump Tracker
