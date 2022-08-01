@@ -12,9 +12,10 @@ import "swiper/css/navigation";
 
 import swiper, { Autoplay, FreeMode } from "swiper";
 import { getTrendingCoins } from '../pages/api/trending';
-import Link from 'next/link';
+
 import { numberWithCommas } from '../utils/convert';
 import { colorPercentage } from '../utils/colorText';
+import { CircularProgress } from '@mui/material';
 
 
 export const Carousel = () => {
@@ -24,81 +25,93 @@ export const Carousel = () => {
 
 
     const fetchTrending = async () => {
-        // const test = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=20&page=1&sparkline=false`)
-        // console.log(test)
+        setIsLoading(true);
         const data = await getTrendingCoins(currency)
 
         setTrending(data);
-        return true;
+        setIsLoading(false)
     }
 
     useEffect(() => {
-        setIsLoading(true);
-        fetchTrending().then(() => {
-            setIsLoading(false)
-        });
+        fetchTrending();
     }, [currency])
 
     return (
-        <div className='flex items-center h-[50%]'>
+        <>
+            {
+                isLoading ? (
+                    <div className='flex justify-center'>
+                        <CircularProgress />
+                    </div>
+                ) :
+                    (
+                        <div className='flex items-center h-[50%]'>
 
-            <Swiper
-                slidesPerView={5}
-                spaceBetween={10}
-                // freeMode={true}
-                centeredSlides={true}
-                autoplay={{
-                    delay: 500,
-                    disableOnInteraction: false,
-                }}
-                loop={true}
-                speed={2000}
-                grabCursor={true}
-                modules={[Autoplay]}
-                className="mySwiper"
-                breakpoints={{
-                    // when window width is >= 320px
-                    320: {
-                        slidesPerView: 2,
-                        spaceBetween: 20
-                    },
-                    // when window width is >= 480px
-                    480: {
-                        slidesPerView: 3,
-                        spaceBetween: 30
-                    },
-                    // when window width is >= 640px
-                    640: {
-                        slidesPerView: 5,
-                        spaceBetween: 40
-                    }
-                }}
-            >
+                            <Swiper
 
-                {
-                    trending.map((coin, idx) => {
-                        return (
-                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350'>
-                                <Image
-                                    className=''
-                                    src={coin.image}
-                                    alt={coin.name}
-                                    height={80}
-                                    width={80}
-                                    unoptimized={true}
-                                />
-                                <span className='flex flex-wrap gap-1 pt-2 text-xs'>
-                                    {coin.symbol ?? '&nbsp;'}
-                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
-                                </span>
-                                <span>{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
-                            </SwiperSlide>
-                        )
-                    })
-                }
-            </Swiper>
+                                slidesPerView={5}
+                                spaceBetween={10}
+                                freeMode={true}
+                                centeredSlides={true}
+                                autoplay={{
+                                    delay: 500,
+                                    disableOnInteraction: false,
+                                    pauseOnMouseEnter: true
+                                }}
+                                loop={true}
+                                speed={2000}
+                                grabCursor={true}
+                                modules={[Autoplay, FreeMode]}
+                                className="mySwiper"
+                                breakpoints={{
+                                    // when window width is >= 320px
+                                    320: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 20
+                                    },
+                                    // when window width is >= 480px
+                                    480: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 30
+                                    },
+                                    // when window width is >= 640px
+                                    640: {
+                                        slidesPerView: 5,
+                                        spaceBetween: 40
+                                    }
+                                }}
+                            >
 
-        </div >
+                                {
+                                    trending.map((coin, idx) => {
+                                        return (
+                                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350'>
+                                                <Image
+                                                    className=''
+                                                    src={coin.image}
+                                                    alt={coin.name}
+                                                    height={80}
+                                                    width={80}
+                                                    unoptimized={true}
+                                                />
+                                                <span className='flex flex-wrap gap-1 pt-2 text-xs'>
+                                                    {coin.symbol ?? '&nbsp;'}
+                                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
+
+                                                </span>
+                                                <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
+                                            </SwiperSlide>
+                                        )
+                                    })
+                                }
+                            </Swiper>
+                        </div >
+                    )
+
+            }
+        </>
+
+
     )
 }
 

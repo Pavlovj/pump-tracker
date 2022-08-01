@@ -59,7 +59,7 @@ export const TrendingTable = () => {
         { id: '24h', label: '24h', align: 'center', format: (val) => colorPercentage(val) },
         { id: '7d', label: '7d', align: 'center', format: (val) => colorPercentage(val) },
         {
-            id: 'ath', label: 'ATH', align: 'right', format: ([ath, percentage]) => {
+            id: 'ath', label: 'All Time High (ATH)', align: 'right', format: ([ath, percentage]) => {
                 return (
                     <div className='flex flex-wrap justify-end'>
                         <span className=''>{symbol}{numberWithCommas(ath)}</span>
