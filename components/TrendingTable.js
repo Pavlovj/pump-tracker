@@ -77,7 +77,7 @@ export const TrendingTable = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(100);
     const [loading, setLoading] = useState(true)
-    const [coins, setCoins] = useState([])
+
     const [rows, setRows] = useState([])
     const [search, setSearch] = useState('');
     const [globalCap, setGlobalCap] = useState(0)
@@ -89,7 +89,6 @@ export const TrendingTable = () => {
     const fetchCoins = async () => {
         setLoading(true);
         const data = await getMarketChart(currency, undefined, true)
-        setCoins(data);
 
         setRows(data.map((x, y) => createData(x, y)))
         setLoading(false);
@@ -99,6 +98,14 @@ export const TrendingTable = () => {
         fetchCoins();
     }, [currency])
 
+
+    const handleSearch = () => {
+        return search.length
+            ? rows.filter(({ coin: [name, symbol] }) => {
+                return name.toLowerCase().indexOf(search.toLowerCase()) > -1 || symbol.toLowerCase().indexOf(search.toLowerCase()) > -1;
+            })
+            : rows
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -113,7 +120,7 @@ export const TrendingTable = () => {
         <Container>
             <div className='flex flex-col justify-center py-6'>
                 <span className='text-2xl'>Today&apos;s Cryptocurrency Prices</span>
-                <span  className='text-sm'>The global cryptocurrency market cap today is <span className='text-blue-300'>$$$</span> a -99% change in the last 24 hours.</span>
+                <span className='text-sm'>The global cryptocurrency market cap today is <span className='text-blue-300'>$$$</span> a -99% change in the last 24 hours.</span>
                 <TextField
                     sx={{ input: { color: 'white' } }}
                     color='primary'
@@ -147,11 +154,12 @@ export const TrendingTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {rows
+                                        {handleSearch()
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row) => {
                                                 return (
                                                     <TableRow
+                                                        // TODO add onClick history dynamic path slug
                                                         hover
                                                         role="checkbox"
                                                         tabIndex={-1}
