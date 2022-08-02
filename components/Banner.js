@@ -16,7 +16,7 @@ export const Banner = () => {
                     <div className='flex flex-col justify-center text-center h-[30%] hover:text-blue-200'>
 
                         <span className='text-5xl font-extrabold mb-1'>Pump Tracker</span>
-                        <span className='text-gl font-mono '>Cryptocurrency Prices by Market Cap </span>
+                        <span className='text-gl font-mono '>Breaking into the blockchain space one block at a time</span>
                     </div>
 
                     <Carousel />

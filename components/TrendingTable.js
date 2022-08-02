@@ -135,11 +135,11 @@ export const TrendingTable = () => {
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 {loading ?
 
-                    (<LinearProgress />) :
+                    (<LinearProgress className='bg-blue-200' />) :
                     (
                         <>
                             <TableContainer sx={{}} className='bg-gray-900'>
-                                <Table stickyHeader aria-label="sticky table" >
+                                <Table stickyHeader>
                                     <TableHead >
                                         <TableRow >
                                             {columns.map((column) => (
@@ -147,6 +147,7 @@ export const TrendingTable = () => {
                                                     key={column.id}
                                                     align={column.align}
                                                     style={{ minWidth: column.minWidth }}
+
                                                 >
                                                     {column.label}
                                                 </TableCell>
@@ -185,7 +186,7 @@ export const TrendingTable = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                            <TablePagination
+                            {/* <TablePagination
                                 className='bg-blue-400 '
                                 rowsPerPageOptions={[10, 25, 100]}
                                 component="div"
@@ -194,7 +195,7 @@ export const TrendingTable = () => {
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
+                            /> */}
                         </>)}
 
 

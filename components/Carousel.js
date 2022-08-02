@@ -41,7 +41,11 @@ export const Carousel = () => {
             {
                 isLoading ? (
                     <div className='flex justify-center'>
-                        <CircularProgress />
+                        <CircularProgress
+                            style={{ color: '#60a5fa' }}
+                            thickness={2}
+                            size={75}
+                        />
                     </div>
                 ) :
                     (

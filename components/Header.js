@@ -11,7 +11,7 @@ export const Header = () => {
 
     return (
 
-        <AppBar className='bg-transparent static'>
+        <AppBar className='bg-gray-900  static top-0'>
             <Container>
                 <Toolbar className='flex flex-wrap justify-between items-center mx-auto'>
                     <Typography
