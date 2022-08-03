@@ -22,10 +22,10 @@ function createData(coin, idx) {
         rank: idx,
         coin: [coin.name, coin.symbol, coin.image],
         price: coin.current_price.toFixed(2),
-        '1h': coin.price_change_percentage_1h_in_currency.toFixed(1),
+        '1h': coin.price_change_percentage_1h_in_currency?.toFixed(1),
         '24h': coin.price_change_percentage_24h.toFixed(1),
-        '7d': coin.price_change_percentage_7d_in_currency.toFixed(1),
-        ath: [coin.ath.toFixed(3), coin.ath_change_percentage.toFixed(1)],
+        '7d': coin.price_change_percentage_7d_in_currency?.toFixed(1),
+        ath: [coin.ath?.toFixed(3), coin.ath_change_percentage?.toFixed(1)],
         mktCap: coin.market_cap,
         '7dGraph': coin.sparkline_in_7d.price
     };
