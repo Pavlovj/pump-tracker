@@ -16,9 +16,11 @@ import Image from 'next/image';
 import { colorPercentage } from '../utils/colorText';
 import { abbreviateNumber, numberWithCommas } from '../utils/convert';
 import { FaSearch } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 function createData(coin, idx) {
     return {
+        id: coin.id,
         rank: idx,
         coin: [coin.name, coin.symbol, coin.image],
         price: coin.current_price.toFixed(2),
@@ -34,6 +36,8 @@ function createData(coin, idx) {
 ;
 
 export const TrendingTable = () => {
+    const router = useRouter();
+
     const columns = [
         { id: 'rank', label: '#', minWidth: 40, align: 'center', format: (val) => ++val },
         {
@@ -147,7 +151,6 @@ export const TrendingTable = () => {
                                                     key={column.id}
                                                     align={column.align}
                                                     style={{ minWidth: column.minWidth }}
-
                                                 >
                                                     {column.label}
                                                 </TableCell>
@@ -173,6 +176,10 @@ export const TrendingTable = () => {
                                                                     key={column.id}
                                                                     align={column.align}
                                                                     className='text-slate-400'
+                                                                    onClick={() => {
+                                                                        console.log(row)
+                                                                        router.push(`/coins/${row.id}`)
+                                                                    }}
                                                                 >
                                                                     {column.format
                                                                         ? column.format(value)
