@@ -89,7 +89,7 @@ export const Carousel = () => {
                                 {
                                     trending.map((coin, idx) => {
                                         return (
-                                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350'>
+                                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'>
                                                 <Image
                                                     className=''
                                                     src={coin.image}
