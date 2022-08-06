@@ -5,18 +5,16 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Container, FormControl, Input, InputAdornment, InputLabel, LinearProgress, OutlinedInput, TextField, Typography } from '@mui/material';
+
+import { Container, LinearProgress, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { getMarketChart, getTrendingCoins, globalStats } from '../pages/api/trending';
 import { CurrencyState } from '../contexts/currencyContext';
 import Image from 'next/image';
 import { colorPercentage } from '../utils/colorText';
-import { abbreviateNumber, numberWithCommas } from '../utils/convert';
-import { FaSearch } from 'react-icons/fa';
+import { numberWithCommas } from '../utils/convert';
 import { useRouter } from 'next/router';
+import { getMarketChart } from '../pages/api/coins/market';
 
 function createData(coin, idx) {
     return {
@@ -177,7 +175,6 @@ export const TrendingTable = () => {
                                                                     align={column.align}
                                                                     className='text-slate-400'
                                                                     onClick={() => {
-                                                                        console.log(row)
                                                                         router.push(`/coins/${row.id}`)
                                                                     }}
                                                                 >

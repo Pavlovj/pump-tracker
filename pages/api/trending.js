@@ -9,7 +9,6 @@ export const getTrendingCoins = async (currency, amount = 20) => {
 }
 
 export default function handler(req, res) {
-  console.log(req)
   getTrendingCoins(req.body.currency)
     .then((data) => {
 

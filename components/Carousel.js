@@ -89,22 +89,26 @@ export const Carousel = () => {
                                 {
                                     trending.map((coin, idx) => {
                                         return (
-                                            <SwiperSlide key={idx} className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'>
-                                                <Image
-                                                    className=''
-                                                    src={coin.image}
-                                                    alt={coin.name}
-                                                    height={80}
-                                                    width={80}
-                                                    unoptimized={true}
-                                                />
-                                                <span className='flex flex-wrap gap-1 pt-2 text-xs'>
-                                                    {coin.symbol ?? '&nbsp;'}
-                                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
+                                                <SwiperSlide
+                                                    key={idx}
+                                                    className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'
 
-                                                </span>
-                                                <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
-                                            </SwiperSlide>
+                                                >
+                                                    <Image
+                                                        className=''
+                                                        src={coin.image}
+                                                        alt={coin.name}
+                                                        height={80}
+                                                        width={80}
+                                                        unoptimized={true}
+                                                    />
+                                                    <span className='flex flex-wrap gap-1 pt-2 text-xs'>
+                                                        {coin.symbol ?? '&nbsp;'}
+                                                        {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
+
+                                                    </span>
+                                                    <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
+                                                </SwiperSlide>
                                         )
                                     })
                                 }

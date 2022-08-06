@@ -23,3 +23,8 @@ export const abbreviateNumber = (value) => {
     }
     return newValue;
 }
+
+import { sub, getUnixTime } from 'date-fns'
+export const subUnixTimestamp = (duration, beginDate = Date.now()) => {
+    return getUnixTime(sub(beginDate, duration));
+}

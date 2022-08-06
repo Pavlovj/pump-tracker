@@ -15,7 +15,7 @@ export default function Breadcrumbs({ props }) {
     return (
         <BreadCrumbs
             aria-label="breadcrumb"
-            className='text-slate-400 text-lg'
+            className='text-slate-400 text-base'
             separator='>'>
             {
                 pathArray.map(({ breadcrumb, href }, idx, { length }) => {
@@ -26,7 +26,7 @@ export default function Breadcrumbs({ props }) {
                         >
 
                             <a className={`hover:underline ${(idx + 1 === length ?
-                                'text-white'
+                                'text-white font-medium'
                                 : '')}`
                             }>
                                 {/* FIXME redo this */}
