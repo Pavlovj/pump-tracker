@@ -4,9 +4,10 @@ import { CurrencyState } from '../../contexts/currencyContext';
 import { colorPercentage } from '../../utils/colorText';
 import { numberWithCommas } from '../../utils/convert';
 
-import Highcharts from 'highcharts'
+import Highcharts from 'highcharts/highstock'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
+
 import { getCoinChart } from '../../pages/api/coins/[coinID]/market_chart';
 
 
@@ -15,7 +16,7 @@ const BitcoinID = 'btc';
 
 export default function CoinChart({ props: coin }) {
 
-  const [timeSpan, setTimeSpan] = useState('24h'); //TODO dyamic
+  const [timeSpan, setTimeSpan] = useState('24h'); //TODO dynamic
   const { currency, symbol } = CurrencyState();
 
   const currencyLow = currency.toLowerCase();
@@ -25,29 +26,173 @@ export default function CoinChart({ props: coin }) {
   const formatPriceChangePercentage = (cur) => colorPercentage(coin.market_data[`price_change_percentage_${timeSpan}_in_currency`][cur].toFixed(2));
 
 
-  if (typeof Highcharts === 'object') {
-    HighchartsExporting(Highcharts)
-  }
-
-  const [hoverData, setHoverData] = useState(null);
-  const [chartOptions, setChartOptions] = useState({
-    title: {
-      text: "My chart"
-    },
-    series: [{ data: [] }]
-  });
+  const [chartOptions, setChartOptions] = useState(null);
 
   useEffect(() => {
-    getCoinChart(coin.id, currency.toLowerCase(), { hours: 7 })
-      .then(data => { setChartOptions({ series: [{ data: data }] }); });
+    if (typeof Highcharts === 'object') {
+      HighchartsExporting(Highcharts) //FIXME chart settings
+      setChartOptions({
+        chart: {
+          // zoomType: 'x'
+          backgroundColor: 'transparent',
+          style: {
+            // fontFamily: 'monospace',
+            // color: "#09d624"
+          }
+        },
+        title: {
+          text: `${coin.name} Price Chart (${coin.symbol.toUpperCase()}/${currency})`,
+          align: 'left'
+        },
+        series: [{
+          color: "#9ec2d9", // line color
+          name: 'Price',
+          type: "area",
+          threshold: null,
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            },
+            stops: [
+              [0, Highcharts.getOptions().colors[0]],
+              [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+            ]
+          },
+          marker: {
+            enabled: false,
+          },
+          shadow: false,
+          data: [],
+
+        }],
+
+        credits: {
+          enabled: true,
+          href: '',
+          text: '© Pump Tracker',
+          style: {
+            color: "#c95726", //TODO colors
+            cursor: 'default',
+            fontSize: '9px'
+          }
+        },
+
+        xAxis: {
+          type: 'datetime',
+          labels: {
+            style: {
+              color: 'white'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: '',
+          },
+          labels: {
+            style: {
+              color: 'white'
+            }
+          }
+        },
+        legend: {
+          enabled: false
+        },
+
+        rangeSelector: {
+          enabled: true,
+          inputEnabled: false, // Date range picker
+          allButtonsEnabled: true,
+          buttons: [{
+            event: { click: (e) => { console.log(e) }, },
+            type: 'hour',
+            count: 1,
+            text: '1H'
+          }, {
+            type: 'hour',
+            count: 24,
+            text: '24H'
+          }, {
+            type: 'day',
+            count: 7,
+            text: '7D'
+          }, {
+            type: 'minute',
+            count: 1,
+            text: '1M'
+          }, {
+            type: 'minute',
+            count: 3,
+            text: '3M'
+          }, {
+            type: 'minute',
+            count: 6,
+            text: '6M'
+          }, {
+            type: 'year',
+            count: 1,
+            text: '1Y'
+          }, {
+            type: 'all',
+            text: 'ALL'
+          }
+          ],
+          buttonTheme: {
+            style: {},
+            width: 30
+          },
+          buttonPosition: {
+            align: 'right'
+          },
+          selected: 1
+        },
+        tooltip: {
+          shared: true,
+          // formatter: function () {
+
+          //   return this.y + '</b><br/>' + this.x
+          // },
+          // headerFormat: '<b>{series.name}</b><br>',
+          // pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+        },
+
+        responsive: {
+          rules: [{
+            condition: {
+              maxWidth: 500
+            },
+            chartOptions: {
+              chart: {
+                height: 300
+              },
+              subtitle: {
+                text: null
+              },
+              navigator: {
+                enabled: false
+              }
+            }
+          }]
+        }
+      })
+    }
+
+    getCoinChart(coin.id, currency.toLowerCase(), { hours: 24, days: 30 })
+      .then(data => {
+        console.log(data)
+        setChartOptions({ series: [{ data: data.prices }] });
+      });
 
 
-  }, []);
+  }, [currency]);
 
   return (
     <Container className='bg-slate-800 rounded'>
       {/* Main column */}
-      <div className='flex flex-col'>
+      <div className='flex flex-col my-6'>
         {/* Header */}
         <div className='flex flex-col'>
           {/* Price in CURRENCY */}
@@ -68,10 +213,14 @@ export default function CoinChart({ props: coin }) {
         </div>
 
         <div>
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={chartOptions}
-          />
+          {chartOptions ?
+            (<HighchartsReact
+              highcharts={Highcharts}
+              options={chartOptions}
+            />)
+            : null
+          }
+
         </div>
 
 
