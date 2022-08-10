@@ -26,7 +26,6 @@ const Coin = (props) => {
             });
 
     }, [currency])
-
     return (
         <div className='bg-gray-900 text-white min-h-screen'>
             <Header />
@@ -36,7 +35,7 @@ const Coin = (props) => {
                     <Breadcrumbs props={coin} />
                 </div>
 
-                <div className='flex flex-col justify-between md:flex-row pb-3'>
+                <div className='flex flex-col justify-between md:flex-row pb-6'>
 
                     <div className='flex flex-col gap-3 '>
                         <div className='text-xl flex gap-3 '>
@@ -65,7 +64,8 @@ const Coin = (props) => {
 
                     </div>
                 </div>
-                <Container className='p-0 flex gap-5'>
+                
+                <Container className='p-0 flex'>
 
                     <CoinChart props={coin} />
 
