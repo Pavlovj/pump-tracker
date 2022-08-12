@@ -5,9 +5,14 @@ import React, { createContext, useEffect, useState } from 'react'
 import { BsGithub, BsGlobe2, BsReddit, BsStar, BsTwitter } from 'react-icons/bs';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import CoinChart from '../../components/coin/CoinChart';
+import ConvertCurrency from '../../components/coin/ConvertCurrency';
+import Description from '../../components/coin/Description';
+import PriceStatistics from '../../components/coin/PriceStatistics';
+import Trending from '../../components/coin/Trending';
 import { Header } from '../../components/Header';
 import { CurrencyState } from '../../contexts/currencyContext';
 import { getCoinStats } from '../api/coins/[coinID]';
+import { getMostTrending } from '../api/most-trending';
 
 const CoinContext = createContext();
 
@@ -27,7 +32,8 @@ const Coin = (props) => {
 
     }, [currency])
     return (
-        <div className='bg-gray-900 text-white min-h-screen'>
+        <div className='bg-gray-900 text-white min-h-screen pb-9
+        '>
             <Header />
 
             <Container className='flex flex-col'>
@@ -64,14 +70,23 @@ const Coin = (props) => {
 
                     </div>
                 </div>
-                
-                <Container className='p-0 flex'>
 
-                    <CoinChart props={coin} />
+                <Container className='p-0 flex gap-5'>
+                    {/* <div className='flex flex-col sm:flex-row '> </div> */}
+
+                    <div className='flex flex-col  w-full sm:w-2/3 lg:w-3/4 gap-5'>
+                        <CoinChart props={coin} />
+                        <Description props={coin} />
+                        <div className='sm:hidden '><ConvertCurrency coin={coin} /></div>
+                    </div>
 
 
-                    <div className='flex flex-col'>
 
+
+                    <div className='hidden sm:flex flex-col gap-5'>
+                        <ConvertCurrency coin={coin} />
+                        <PriceStatistics coin={coin} />
+                        <Trending trending={props.trending}/>
                     </div>
 
                 </Container>
@@ -85,8 +100,9 @@ export default Coin
 
 
 export async function getServerSideProps({ query: { coinID } }) {
+    const trending = await getMostTrending();
     const data = await getCoinStats(coinID)
     return {
-        props: { coin: data }, // will be passed to the page component as props
+        props: { coin: data, trending: trending }, // will be passed to the page component as props
     }
 }

@@ -7,18 +7,19 @@ export const numberWithCommas = (value) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export const abbreviateNumber = (value, precision = 3, custom_suffixes) => {
-    let newValue = 1200;
+export const abbreviateNumber = (value, precision = 4, custom_suffixes) => {
+    let newValue = value;
     let suffixes = ["", "K", "M", "B", "T"];
+    
+    // if (custom_suffixes?.length) {
+    //     suffixes = Object.assign(suffixes, custom_suffixes)
+    // }
 
-    if (custom_suffixes?.length) {
-        suffixes = Object.assign(suffixes, custom_suffixes)
-    }
     let suffixNum = 0;
     while (newValue >= 1000) {
         newValue /= 1000;
         suffixNum++;
-    }
+    }   
 
     newValue = newValue.toPrecision(precision);
 

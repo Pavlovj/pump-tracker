@@ -15,3 +15,8 @@
   scroll-behavior: smooth;
 
 }
+
+.description-text a {
+  color: rgb(148, 181, 205);
+  text-decoration: underline;
+}

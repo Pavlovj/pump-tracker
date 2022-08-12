@@ -9,6 +9,7 @@ import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 
 import { getCoinChart } from '../../pages/api/coins/[coinID]/market_chart';
+import ContainerLayout from './ContainerLayout';
 
 
 
@@ -190,9 +191,9 @@ export default function CoinChart({ props: coin }) {
   }, [currency]);
 
   return (
-    <Container className='bg-slate-800 rounded'>
+    <ContainerLayout>
       {/* Main column */}
-      <div className='flex flex-col my-6'>
+      <div className='flex flex-col'>
         {/* Header */}
         <div className='flex flex-col'>
           {/* Price in CURRENCY */}
@@ -223,11 +224,9 @@ export default function CoinChart({ props: coin }) {
 
         </div>
 
-
-
-
       </div>
-    </Container >
+
+    </ContainerLayout>
 
   )
 }
