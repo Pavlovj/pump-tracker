@@ -267,9 +267,9 @@ export default function ConvertCurrency({ coin, currencyAbbreviation }) {
     )
 }
 
-export async function getServerSideProps() {
-    const data = (await (await fetch('https://openexchangerates.org/api/currencies.json?prettyprint=true&=true&show_inactive=true')).json())
-    return {
-        props: { currencyAbbreviation: data }, // will be passed to the page component as props
-    }
-}
+// export async function getServerSideProps() {
+//     const data = (await (await fetch('https://openexchangerates.org/api/currencies.json?prettyprint=true&=true&show_inactive=true')).json())
+//     return {
+//         props: { currencyAbbreviation: data }, // will be passed to the page component as props
+//     }
+// }

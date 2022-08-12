@@ -12,13 +12,17 @@ export const Header = () => {
     return (
 
         <AppBar className='bg-gray-900  static top-0'>
-            <Container>
+            <Container className='px-0'>
                 <Toolbar className='flex flex-wrap justify-between items-center mx-auto'>
                     <Typography
                         className='text-blue-300 cursor-pointer font-bold text-2xl'
                         onClick={() => { router.push('/') }}
                     >
-                        Pump Tracker
+                        <div className='flex flex-row'>
+                            <img src="https://www.svgrepo.com/show/1924/line-chart.svg" className="mr-3 h-8" alt="" />
+                            Pump Tracker
+                        </div>
+
                     </Typography>
 
                     <Select
