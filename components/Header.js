@@ -14,16 +14,16 @@ export const Header = () => {
         <AppBar className='bg-gray-900  static top-0'>
             <Container className='px-0'>
                 <Toolbar className='flex flex-wrap justify-between items-center mx-auto'>
-                    <Typography
-                        className='text-blue-300 cursor-pointer font-bold text-2xl'
+                    <div
+                        className='flex flex-row text-blue-300 cursor-pointer font-bold text-2xl '
                         onClick={() => { router.push('/') }}
                     >
-                        <div className='flex flex-row'>
-                            <img src="https://www.svgrepo.com/show/1924/line-chart.svg" className="mr-3 h-8" alt="" />
-                            Pump Tracker
-                        </div>
 
-                    </Typography>
+                        <img src="https://www.svgrepo.com/show/1924/line-chart.svg" className="mr-3 h-8" alt="" />
+                        <span>Pump Tracker</span>
+                    </div>
+
+
 
                     <Select
                         variant='outlined'
