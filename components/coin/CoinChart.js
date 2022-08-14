@@ -108,7 +108,7 @@ export default function CoinChart({ props: coin }) {
           inputEnabled: false, // Date range picker
           allButtonsEnabled: true,
           buttons: [{
-            event: { click: (e) => { console.log(e) }, },
+            event: { click: (e) => { console.log(123) }, },
             type: 'hour',
             count: 1,
             text: '1H'
@@ -181,7 +181,7 @@ export default function CoinChart({ props: coin }) {
       })
     }
 
-    getCoinChart(coin.id, currency.toLowerCase(), { hours: 24, days: 30 })
+    getCoinChart(coin.id, currency.toLowerCase(), {  days: 2000 })
       .then(data => {
         console.log(data)
         setChartOptions({ series: [{ data: data.prices }] });
