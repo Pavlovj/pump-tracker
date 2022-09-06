@@ -16,9 +16,11 @@ import { getTrendingCoins } from '../pages/api/trending';
 import { numberWithCommas } from '../utils/convert';
 import { colorPercentage } from '../utils/colorText';
 import { CircularProgress } from '@mui/material';
+import { useRouter } from 'next/router';
 
 
 export const Carousel = () => {
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(true)
     const [trending, setTrending] = useState([])
     const { currency, symbol } = CurrencyState();
@@ -89,26 +91,27 @@ export const Carousel = () => {
                                 {
                                     trending.map((coin, idx) => {
                                         return (
-                                                <SwiperSlide
-                                                    key={idx}
-                                                    className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'
+                                            <SwiperSlide
+                                                key={idx}
+                                                onClick={() => router.push(`/coins/${coin.id}`)}
+                                                className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'
 
-                                                >
-                                                    <Image
-                                                        className=''
-                                                        src={coin.image}
-                                                        alt={coin.name}
-                                                        height={80}
-                                                        width={80}
-                                                        unoptimized={true}
-                                                    />
-                                                    <span className='flex flex-wrap gap-1 pt-2 text-xs'>
-                                                        {coin.symbol ?? '&nbsp;'}
-                                                        {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
+                                            >
+                                                <Image
+                                                    className=''
+                                                    src={coin.image}
+                                                    alt={coin.name}
+                                                    height={80}
+                                                    width={80}
+                                                    unoptimized={true}
+                                                />
+                                                <span className='flex flex-wrap gap-1 pt-2 text-xs'>
+                                                    {coin.symbol ?? '&nbsp;'}
+                                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
 
-                                                    </span>
-                                                    <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
-                                                </SwiperSlide>
+                                                </span>
+                                                <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
+                                            </SwiperSlide>
                                         )
                                     })
                                 }

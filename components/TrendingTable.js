@@ -7,14 +7,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { Container, LinearProgress, TextField } from '@mui/material';
+import { CircularProgress, Container, LinearProgress, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CurrencyState } from '../contexts/currencyContext';
 import Image from 'next/image';
 import { colorPercentage } from '../utils/colorText';
-import { numberWithCommas } from '../utils/convert';
+import { abbreviateNumber, numberWithCommas } from '../utils/convert';
 import { useRouter } from 'next/router';
 import { getMarketChart } from '../pages/api/coins/market';
+import { globalStats } from '../pages/api/global';
 
 function createData(coin, idx) {
     return {
@@ -82,20 +83,26 @@ export const TrendingTable = () => {
 
     const [rows, setRows] = useState([])
     const [search, setSearch] = useState('');
-    const [globalCap, setGlobalCap] = useState(0)
+
 
     const { currency, symbol } = CurrencyState();
 
-
+    const [marketCap, setMarketCap] = useState({})
 
     const fetchCoins = async () => {
         setLoading(true);
-        const data = await getMarketChart(currency, undefined, true)
+        const { data: { total_market_cap, market_cap_change_percentage_24h_usd } } = await globalStats();
+        let marketCap = 0
+        for await (let  value of Object.values(total_market_cap)){
+            marketCap = + value
+        }
+        console.log(marketCap)
+        setMarketCap({ total: abbreviateNumber(marketCap, 3), percentage: colorPercentage(market_cap_change_percentage_24h_usd) });
 
-        setRows(data.map((x, y) => createData(x, y)))
+        const marketData = await getMarketChart(currency, undefined, true)
+        setRows(marketData.map((x, y) => createData(x, y)))
         setLoading(false);
     }
-
     useEffect(() => {
         fetchCoins();
     }, [currency])
@@ -122,7 +129,7 @@ export const TrendingTable = () => {
         <Container>
             <div className='flex flex-col justify-center py-6'>
                 <span className='text-2xl'>Today&apos;s Cryptocurrency Prices</span>
-                <span className='text-sm'>The global cryptocurrency market cap today is <span className='text-blue-300'>$$$</span> a -99% change in the last 24 hours.</span>
+                <span className='text-sm'>The global cryptocurrency market cap today is <span className='text-blue-300'>{loading ? <CircularProgress /> : marketCap.total}</span> a {loading ? <CircularProgress /> : marketCap.percentage} change in the last 24 hours.</span>
                 <TextField
                     sx={{ input: { color: 'white' } }}
                     color='primary'

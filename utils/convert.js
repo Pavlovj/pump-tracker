@@ -9,7 +9,7 @@ export const numberWithCommas = (value) => {
 
 export const abbreviateNumber = (value, precision = 4, custom_suffixes) => {
     let newValue = value;
-    let suffixes = ["", "K", "M", "B", "T"];
+    let suffixes = ["", "K", "M", "B", "T",'Z'];
     
     // if (custom_suffixes?.length) {
     //     suffixes = Object.assign(suffixes, custom_suffixes)
