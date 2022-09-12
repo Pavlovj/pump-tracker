@@ -11,7 +11,14 @@ import HighchartsReact from 'highcharts-react-official'
 import { getCoinChart } from '../../pages/api/coins/[coinID]/market_chart';
 import ContainerLayout from './ContainerLayout';
 
-
+function format_output(output) {
+  var n = Math.log(output) / Math.LN10;
+  var x = 4 - n;
+  if (x < 0)
+    x = 0;
+  output = output.toFixed(x);
+  return output;
+}
 
 const BitcoinID = 'btc';
 
@@ -25,8 +32,7 @@ export default function CoinChart({ props: coin }) {
 
   const formatPrice = (cur) => price[cur] > 1.1 ? numberWithCommas(price[cur].toFixed(2)) : price[cur]
   const formatPriceChangePercentage = (cur) => colorPercentage(coin.market_data[`price_change_percentage_${timeSpan}_in_currency`][cur].toFixed(2));
-
-
+  
   const [chartOptions, setChartOptions] = useState(null);
 
   useEffect(() => {
@@ -181,7 +187,7 @@ export default function CoinChart({ props: coin }) {
       })
     }
 
-    getCoinChart(coin.id, currency.toLowerCase(), {  days: 2000 })
+    getCoinChart(coin.id, currency.toLowerCase(), { days: 2000 })
       .then(data => {
         console.log(data)
         setChartOptions({ series: [{ data: data.prices }] });

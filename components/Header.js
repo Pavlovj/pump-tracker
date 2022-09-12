@@ -23,17 +23,27 @@ export const Header = () => {
                         <span>Pump Tracker</span>
                     </div>
 
+                    <div className='flex items-center gap-2'>
+                        <Select
+                            variant='outlined'
+                            className='px-2 h-11 border-white text-white border'
+                            value={currency}
+                            onChange={(e) => setCurrency(e.target.value)}
+                        >
+                            <MenuItem className value={'EUR'}>EUR</MenuItem>
+                            <MenuItem value={'USD'}>USD</MenuItem>
+                        </Select>
+
+                        <button className="outline outline-1 outline-blue-500 text-blue-500  hover:text-blue-400 hover:outline-blue-400 text-xs  font-semibold py-2 px-4 rounded ">
+                            Log In
+                        </button>
+                        <button className="bg-blue-500 hover:bg-blue-400 text-white text-xs  font-semibold py-2 px-4 rounded">
+                            Sign Up
+                        </button>
 
 
-                    <Select
-                        variant='outlined'
-                        className='px-2 h-11 border-white text-white border'
-                        value={currency}
-                        onChange={(e) => setCurrency(e.target.value)}
-                    >
-                        <MenuItem className value={'EUR'}>EUR</MenuItem>
-                        <MenuItem value={'USD'}>USD</MenuItem>
-                    </Select>
+                    </div>
+
                 </Toolbar>
             </Container>
         </AppBar >
