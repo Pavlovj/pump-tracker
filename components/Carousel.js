@@ -13,7 +13,7 @@ import "swiper/css/navigation";
 import swiper, { Autoplay, FreeMode } from "swiper";
 import { getTrendingCoins } from '../pages/api/trending';
 
-import { numberWithCommas } from '../utils/convert';
+import { numberWithCommas, shortenNumber } from '../utils/convert';
 import { colorPercentage } from '../utils/colorText';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -32,11 +32,13 @@ export const Carousel = () => {
 
         setTrending(data);
         setIsLoading(false)
+
     }
 
     useEffect(() => {
         fetchTrending();
     }, [currency])
+
 
     return (
         <>
@@ -93,24 +95,23 @@ export const Carousel = () => {
                                         return (
                                             <SwiperSlide
                                                 key={idx}
-                                                onClick={() => router.push(`/coins/${coin.id}`)}
+                                                onClick={() => router.push(`/coins/${coin?.id}`)}
                                                 className='flex flex-col items-center cursor-pointer text-white uppercase p-5 hover:scale-125 hover:text-blue-300 hover:font-extrabold transition ease-in-out delay-350 select-none'
-
                                             >
                                                 <Image
                                                     className=''
-                                                    src={coin.image}
-                                                    alt={coin.name}
+                                                    src={coin?.image}
+                                                    alt={coin?.name}
                                                     height={80}
                                                     width={80}
                                                     unoptimized={true}
                                                 />
                                                 <span className='flex flex-wrap gap-1 pt-2 text-xs'>
-                                                    {coin.symbol ?? '&nbsp;'}
-                                                    {colorPercentage(coin?.price_change_percentage_24h?.toFixed(2))}
+                                                    {coin?.symbol ?? '&nbsp;'}
+                                                    {colorPercentage(shortenNumber(coin?.price_change_percentage_24h))}
 
                                                 </span>
-                                                <span >{symbol} {numberWithCommas(coin?.current_price.toFixed(2))}</span>
+                                                <span >{symbol} {numberWithCommas(shortenNumber(coin?.current_price,1))}</span>
                                             </SwiperSlide>
                                         )
                                     })

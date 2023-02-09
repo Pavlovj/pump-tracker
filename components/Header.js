@@ -24,13 +24,15 @@ export const Header = () => {
                     </div>
 
                     <div className='flex items-center gap-2'>
+
+
                         <Select
                             variant='outlined'
-                            className='px-2 h-11 border-white text-white border'
+                            className=' border-white text-white border'
                             value={currency}
                             onChange={(e) => setCurrency(e.target.value)}
                         >
-                            <MenuItem className value={'EUR'}>EUR</MenuItem>
+                            <MenuItem value={'EUR'}>EUR</MenuItem>
                             <MenuItem value={'USD'}>USD</MenuItem>
                         </Select>
 

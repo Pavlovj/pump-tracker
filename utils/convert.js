@@ -7,8 +7,22 @@ import { sub, getUnixTime } from 'date-fns'
  * @return {string} - The formatted number as a string.
  */
 export const numberWithCommas = (value) => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+    // Check if the value has a decimal point
+    if (!value.toString().includes('.')) {
+        // If not, format the value with commas as thousands separators
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    // If the value has a decimal point, split the value into an array of characters
+    const characters = value.toString().split('');
+    // Iterate over the array of characters
+    for (let i = 0; i < characters.length; i++) {
+        // If the current character is the decimal point,
+        // return the value up to that point with commas as thousands separators
+        if (characters[i] === '.') {
+            return value.toString().substring(0, i).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + value.toString().substring(i);
+        }
+    }
+};
 
 /**
  * Abbreviates a number by adding a suffix (K, M, B, T, or Z) representing thousands, 
@@ -56,7 +70,7 @@ export const subUnixTimestamp = (duration, beginDate = Date.now()) => {
  * @param {number} number - The number to be shortened.
  * @return {number} - The shortened number as a number.
  */
-export const shortenNumber = (number) => {
+export const shortenNumber = (number, decimalPlaces = 0) => {
     // Split the number into an array of characters
     const characters = number.toString().split('');
 
@@ -74,7 +88,7 @@ export const shortenNumber = (number) => {
         // If the decimal point has been passed and the current character is not a zero or the decimal point,
         // return the original string up to that point as a float
         if (passedDecimalPoint && !['0', DECIMAL_POINT].includes(characters[i])) {
-            return parseFloat(number.toString().substring(0, ++i));
+            return parseFloat(number.toString().substring(0, ++i + decimalPlaces));
         }
     }
 

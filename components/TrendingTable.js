@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { CurrencyState } from '../contexts/currencyContext';
 import Image from 'next/image';
 import { colorPercentage } from '../utils/colorText';
-import { abbreviateNumber, numberWithCommas } from '../utils/convert';
+import { abbreviateNumber, numberWithCommas, shortenNumber } from '../utils/convert';
 import { useRouter } from 'next/router';
 import { getMarketChart } from '../pages/api/coins/market';
 import { globalStats } from '../pages/api/global';
@@ -22,11 +22,11 @@ function createData(coin, idx) {
         id: coin.id,
         rank: idx,
         coin: [coin.name, coin.symbol, coin.image],
-        price: coin.current_price.toFixed(2),
-        '1h': coin.price_change_percentage_1h_in_currency?.toFixed(1),
-        '24h': coin.price_change_percentage_24h.toFixed(1),
-        '7d': coin.price_change_percentage_7d_in_currency?.toFixed(1),
-        ath: [coin.ath?.toFixed(3), coin.ath_change_percentage?.toFixed(1)],
+        price: shortenNumber(coin.current_price,2),
+        '1h': shortenNumber(coin.price_change_percentage_1h_in_currency),
+        '24h': shortenNumber(coin.price_change_percentage_24h),
+        '7d': shortenNumber(coin.price_change_percentage_7d_in_currency),
+        ath: [coin.ath, shortenNumber(coin.ath_change_percentage)],
         mktCap: coin.market_cap,
         '7dGraph': coin.sparkline_in_7d.price
     };
@@ -96,10 +96,11 @@ export const TrendingTable = () => {
         for await (let  value of Object.values(total_market_cap)){
             marketCap = + value
         }
-        console.log(marketCap)
-        setMarketCap({ total: abbreviateNumber(marketCap, 3), percentage: colorPercentage(market_cap_change_percentage_24h_usd) });
+   
+        setMarketCap({ total: abbreviateNumber(marketCap, 3), percentage: colorPercentage( shortenNumber(market_cap_change_percentage_24h_usd,1)) });
 
         const marketData = await getMarketChart(currency, undefined, true)
+        
         setRows(marketData.map((x, y) => createData(x, y)))
         setLoading(false);
     }

@@ -6,6 +6,7 @@ export const getMarketChart = async (currency, coins, sparkline = false) => {
 }
 
 
+
 export default function handler(req, res) {
     getMarketChart(req.body.currency)
         .then((data) => {
